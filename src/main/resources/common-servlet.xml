@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+             ">
+
+    <!--必须引入-->
+    <context:component-scan base-package="com.demo.controller"/>
+
+    <bean id="JsonView" class="com.demo.view.JsonView"></bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <!--Spring3.1开始的注解 HandlerAdapter -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+
+    <!-- This is a must if you want to use the above bean JsonView for json data resolve -->
+    <bean id="beanNameViewResolver"
+          class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="1" />
+    </bean>
+
+    <!---->
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".html"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+    </bean>
+
+
+</beans>

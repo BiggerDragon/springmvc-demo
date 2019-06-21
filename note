@@ -1,0 +1,52 @@
+1.springMVC的流程？
+    1.用户请求至DispatcherServlet:前端控制器
+    2.DispatcherServlet更具请求，调用HandlerMapping处理器映射器，请求Handler
+    3.HandlerMapping根据url获取到具体的处理器，生成处理器对象以及处理器拦截器(如果有的话)一并交给DispatcherServlet
+    4.DispatcherServlet调用HandlerAdapter适配器
+    5.HandlerAdapter经过适配调用具体的Handler
+    6.Handler执行完成后返回ModelAndView
+    7.HandlerAdapter将Handler执行完成返回的ModelAndView返回给DispatcherServlet
+    8.DispatcherSerlvet将ModelAndView交给ViewResolver解析视图
+    9.ViewResolver解析后返回具体的View
+    10.DispatcherSelervlet对View进行视图渲染，将模型数据填充至视图中
+    11.DispatcherServlet相应用户
+
+2.SpringMVC怎么样设定重定向和转发的？
+    在返回值前加上forward
+    在返回值前加上redirect
+3.SpringMvc怎么和AJAX相互调用的？
+    Json视图解析,@ResponseBody
+4.如何解决POST请求中文乱码问题，GET的又如何处理呢？
+    1）解决post请求乱码问题：CharacterEncodingFilter过滤器
+    2)get:获取参数时，对参数重新编码
+
+5.Spring MVC的异常处理 ？
+    可以将异常抛给Spring框架，由Spring框架来处理；我们只需要配置简单的异常处理器，在异常处理器中添视图页面即可。
+
+6.SpringMvc的控制器是不是单例模式,如果是,有什么问题,怎么解决？
+    是单例模式,所以在多线程访问的时候有线程安全问题,不要用同步,会影响性能的,解决方案是在控制器里面不能写字段。
+7.SpringMVC常用的注解有哪些？
+    @RequestMapping：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。
+    @RequestBody：注解实现接收http请求的json数据，将json转换为java对象。
+    @ResponseBody：注解实现将conreoller方法返回对象转化为json对象响应给客户。
+8.如果在拦截请求中，我想拦截get方式提交的方法,怎么配置？
+    可以在@RequestMapping注解里面加上method=RequestMethod.GET
+9.SpringMvc用什么对象从后台向前台传递数据的？
+    ModelMap
+10.怎么样把ModelMap里面的数据放入Session里面？
+    可以在类上面加上@SessionAttributes注解,里面包含的字符串就是要放入session里面的key。
+11.SpringMvc里面拦截器是怎么写的：
+    1.实现HandlerInterceptor接口
+    2.另外一种是继承适配器类
+    然后配置拦截器bean的就行，默认拦截所有的请求
+12.注解原理：
+    注解本质上是一个继承了Annotation的特殊接口,具体的实现类是在运行时生成动态代理类,
+    通过反射获取的注解是运行时生成的动态代理对象。
+
+
+13.Multipart形式的数据
+    Multipart格式数据会将一个表单拆分为多个部分(part)，每个部分对应一个输入域
+    在一般的表单输入域中，它对应的部分会放置文本型数据，如果是文件上传形式，它对应的部分可以是二进制
+    Multipart/form-data请求方式
+    Multipart/form-data是建立在HTTP的POST请求方式以上的请求，其一般用于HTTP文件上传
+     <form class="" action="" method="post" enctype="multipart/form-data">

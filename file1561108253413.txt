@@ -1,0 +1,54 @@
+-- 修改条码表的索引
+ALTER TABLE LS_BS_PLUINFO DROP INDEX INDEX_UNIQUE;
+CREATE INDEX INDEX_UNIQUE ON LS_BS_PLUINFO(SPID, YSID, CMID, KSID);
+
+
+
+CREATE TABLE `ls_bs_style` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `STYLENUM` varchar(12) DEFAULT NULL COMMENT '款型编号',
+  `EID` varchar(32) DEFAULT NULL,
+  `STYLENAME` varchar(20) DEFAULT NULL COMMENT '款型名称',
+  `CREATETIME` datetime DEFAULT NULL COMMENT '创建时间',
+  `STATE` int(1) DEFAULT NULL COMMENT '状态    0使用    1禁用',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='款型表';
+
+
+ALTER TABLE ls_bs_pluinfo ADD KSID INT (11) DEFAULT NULL COMMENT "款型ID";
+
+
+
+CREATE TABLE `ls_md_communitydg` (
+  `CMID` varchar(32) NOT NULL,
+  `UID` varchar(20) NOT NULL COMMENT '导购id'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `ls_md_communityvip` (
+  `cmid` varchar(32) NOT NULL COMMENT '社群编号',
+  `vid` varchar(18) NOT NULL COMMENT 'vip的id'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `ls_sq_community` (
+  `CMID` varchar(32) NOT NULL COMMENT '社群编号',
+  `EID` varchar(32) NOT NULL COMMENT '渠道',
+  `CMNAME` varchar(100) NOT NULL COMMENT '社群名称',
+  `CREATOR` varchar(20) NOT NULL COMMENT '创建人(最后修改人)',
+  `CREATETIME` datetime NOT NULL COMMENT '创建时间(最后修改时间)',
+  PRIMARY KEY (`CMID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='社群功能表，根据标签、会员级别、性别等进行会员分组，一个会员分组代表一个社群';
+
+CREATE TABLE `ls_msg_template` (
+  `template_id_short` varchar(50) NOT NULL COMMENT '消息模板编号(微信模板库中的编号)',
+  `eid` varchar(32) NOT NULL COMMENT '渠道号',
+  `template_id` varchar(50) NOT NULL COMMENT '微信消息模板id',
+  `title` varchar(100) DEFAULT NULL COMMENT '模板的原始名称(微信模板库中的标题)',
+  `template_name` varchar(100) DEFAULT NULL COMMENT '自定义的模板标题',
+  `type` tinyint(1) NOT NULL COMMENT '0:默认,1:自定义',
+  PRIMARY KEY (`template_id_short`,`eid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自定义模板(通过微信模板库的编号生成自定义的模板并存放在本地库中)';
+
+
+
+
+

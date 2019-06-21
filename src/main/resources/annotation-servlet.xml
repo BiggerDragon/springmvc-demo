@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+             ">
+
+    <context:component-scan base-package="com.demo.controller"/>
+
+<!--    <bean id="JsonView" class="com.demo.view.JsonView"></bean>-->
+
+    <!--java对象转换成json-->
+    <bean id="StringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
+    <bean id="MappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <!--Spring3.1开始的注解 HandlerAdapter -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+
+        <!--将converter对象放置在HandlerAdapter的messageConverters列表里-->
+        <property name="messageConverters">
+            <list>
+                <ref bean="StringHttpMessageConverter"/>
+                <ref bean="MappingJackson2HttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- This is a must if you want to use the above bean JsonView for json data resolve -->
+    <bean id="beanNameViewResolver"
+          class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="1" />
+    </bean>
+
+    <!---->
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".html"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+    </bean>
+
+    <!--文件上传-->
+    <!--StandardServletMultipartResolver使用servlet处理multipart-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--默认的解析编码，默认为iso-8859-1-->
+        <property name="defaultEncoding" value="utf-8" />
+        <!--上传文件的最大大小，默认为-1（无限制）-->
+        <property name="maxUploadSize" value="1024000" />
+        <!--内存缓冲区大小，超过时写入硬盘，默认为-1（无限制）-->
+        <property name="maxInMemorySize" value="204800" />
+        <!--临时文件目录，默认是serlvet容器的临时目录-->
+        <property name="uploadTempDir" value="/" />
+    </bean>
+
+</beans>
