@@ -1,0 +1,6 @@
+
+.idea/.name
+target/*
+.idea/*
+*.iml
+.idea/vcs.xml
